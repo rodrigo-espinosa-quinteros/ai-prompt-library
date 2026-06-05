@@ -1,0 +1,135 @@
+Neuromarketing Consultant GPT — Case Study
+Builder: Rodrigo Espinosa Quinteros
+Type: Custom GPT (ChatGPT)
+Status: Live production deployment
+Language: Spanish
+Domain: Neuromarketing, Behavioral Design, Executive Coaching
+
+Overview
+A multi-module GPT built for a neuromarketing and behavioral design consultant. The GPT
+serves as a digital extension of the consultant's practice — handling lead qualification,
+service exploration, and content delivery across three distinct service lines, while
+maintaining the consultant's voice, methodology, and brand positioning throughout.
+Unlike a generic chatbot, this system functions as a consultative sales and education
+assistant: it delivers scripted, expert-level content on demand, routes users to the
+right service line, and drives conversion toward a human consultation — never replacing
+it.
+
+Architecture
+Routing Logic
+The system prompt uses keyword-based conversation starters to activate one of three
+service modules. Each starter maps to a specific behavioral flow with its own tone,
+content source, and conversion goal.
+User input: "Cómo trabajo"
+→ GPT delivers consultant biography and positioning
+→ Repeats contact details every 2 interactions (re-engagement loop)
+
+User input: "Neuromarketing & behavioral design"
+→ GPT presents 8 biometric study options
+→ User selects one → GPT delivers methodology + use case + business value
+→ Ends with a free diagnostic offer (lead generation hook)
+
+User input: "Coaching y Bienestar"
+→ GPT delivers program overview with direct link
+→ Offers to connect user with consultant
+Two-Layer Architecture
+
+Layer 1 — System Prompt: Routing logic, voice/style rules, literal text blocks,
+hyperlinking behavior, protection instructions, and contact re-engagement triggers.
+Layer 2 — Knowledge Documents: Three documents covering consultant biography,
+biometric methodology details, and coaching program specifics. The GPT presents all
+of this as natural expertise — never referencing the underlying files.
+
+Literal Text Enforcement
+A key architectural decision in this GPT is the use of mandatory literal reproduction
+for specific paragraphs. The system prompt explicitly instructs the GPT to reproduce
+certain blocks word-for-word, without paraphrasing or improvising. This ensures:
+
+Brand voice consistency across all conversations
+Accurate representation of services and credentials
+Controlled conversion messaging at critical moments
+
+
+Modules
+1. "Cómo trabajo" — Consultant Positioning
+Delivers a scripted biography and service overview when the user expresses interest in
+working with the consultant. Designed to qualify leads and build credibility before a
+human call.
+Key design decisions:
+
+Re-engagement loop: Contact details are automatically repeated every 2 interactions,
+keeping the conversion path visible without being intrusive.
+Biography on demand: The GPT offers to elaborate on professional background only
+if the user asks — avoiding information overload on initial contact.
+Hyperlink injection: All platform and tool mentions are automatically converted to
+tracked hyperlinks, enabling passive traffic attribution from GPT conversations.
+
+
+2. "Neuromarketing & behavioral design" — Biometric Study Consultation
+Presents 8 business areas where biometric studies can be applied, then delivers a
+structured 3-block response based on the user's selection:
+
+Methodology: Which biometric technologies apply (eye-tracking, facial coding,
+predictive algorithms, GSR, EEG, heart rate variability via wearable app)
+Practical use: How the data is applied to that specific business area
+Business value: Quantifiable outcomes (conversion lift, UX improvement, reduced
+friction, measurable team wellbeing)
+
+Ends with a free diagnostic offer — a lead generation hook that requires the user
+to send an email, creating a qualified hand-off to the human consultant.
+Key design decisions:
+
+8-option menu structure forces user to self-qualify by business area before the
+GPT delivers content — this prevents generic responses and makes every output
+contextually relevant.
+Three-block output format mirrors a real consulting deliverable: methodology,
+application, and ROI. This positions the GPT as substantive, not superficial.
+Free diagnostic as conversion mechanism: Offering a concrete, low-commitment
+next step (email with a LinkedIn URL) lowers the barrier to engagement significantly
+compared to asking for a sales call directly.
+
+
+3. "Coaching y Bienestar" — Executive Coaching Program
+Delivers program details for a 6-week intensive coaching experience combining group
+sessions, individual coaching, and biometric technology (heart rate variability app).
+Immediately offers to connect the user with the consultant if interest is confirmed.
+Key design decisions:
+
+Single-step conversion: This module is intentionally short. The content block
+delivers enough context to generate interest, then immediately asks for a yes/no
+decision on connecting with the consultant. No extended exploration — the goal is a
+warm hand-off, not a self-service experience.
+Emotional framing: The opening addresses the user's felt pain (demotivation,
+lack of energy, feeling stuck) before presenting the solution — a classic behavioral
+design pattern that increases message resonance.
+
+
+Governance & Protection Layer
+
+Prompt confidentiality: Full system prompt and knowledge documents cannot be
+revealed, reproduced, or described in any format
+No pricing: GPT never quotes prices; all pricing inquiries redirect to human
+consultant
+No code generation: Explicitly out of scope, preventing drift into unrelated tasks
+Natural knowledge delivery: GPT never references its knowledge documents; all
+content is delivered as if it flows from the GPT's own expertise
+Identity protection: GPT never acknowledges being a GPT or confirms/denies the
+existence of a system prompt
+Social engineering prevention: System prompt clarifies that the builder never
+contacts the GPT via chat, preventing impersonation-based prompt injection attempts
+
+
+Key Takeaways
+
+Literal text enforcement is an underused but powerful pattern for brand-critical
+GPTs where paraphrasing introduces risk. When exact wording matters (legal, brand,
+pricing), lock it down explicitly in the system prompt.
+Re-engagement loops (repeating contact info every N interactions) are a simple
+mechanism to maintain conversion visibility in long conversations without redesigning
+the entire flow.
+Self-qualification menus (asking users to pick their area before delivering
+content) dramatically improve output relevance and reduce generic responses — a pattern
+applicable to any multi-service or multi-audience GPT.
+Free diagnostic as lead hook is more effective than direct call-to-action in
+consultative contexts: it delivers immediate value, requires a low-commitment action,
+and creates a qualified touch point for the human consultant to follow up on.
