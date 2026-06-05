@@ -1,0 +1,128 @@
+Sustainable E-Commerce Chatbot GPT 
+Builder: Rodrigo Espinosa Quinteros
+Type: Custom GPT (ChatGPT)
+Status: Live production deployment
+Language: Spanish
+Domain: E-Commerce, Sustainable Retail, Customer Acquisition
+
+Overview
+A conversational sales assistant GPT built for a Guatemalan sustainable e-commerce
+store specializing in plastic-free, locally produced goods. The GPT serves as the
+store's primary customer touchpoint — guiding visitors through product discovery,
+handling objections around eco-conscious purchasing, and converting interest into
+WhatsApp-based sales conversations.
+The GPT is not a transactional system (it cannot take orders or process payments).
+Its role is discovery, education, and warm hand-off: move the customer from
+awareness to intent, then pass them to a human via WhatsApp at the right moment.
+
+Architecture
+Dual-Persona Design
+The GPT operates with two simultaneous personality layers, both defined in the system
+prompt:
+
+Caregiver archetype — warm, friendly, like a trusted friend who gives honest
+recommendations. Creates emotional safety and trust.
+Rebel archetype — subtly challenges conventional consumption patterns, invites
+the user into a shared mission against unnecessary plastic and chemicals. Creates
+identity alignment with the brand's values.
+
+This dual-persona approach is intentional: the caregiver closes the emotional distance,
+while the rebel creates a sense of belonging to something meaningful — a proven
+behavioral design pattern for values-driven brands.
+JSON Product Catalog as Single Source of Truth
+All product information — names, descriptions, prices, images, and URLs — is sourced
+exclusively from a JSON knowledge document. The system prompt explicitly prohibits
+the GPT from inventing or approximating product details.
+Key constraint: Prices are taken exclusively from the JSON. This prevents the GPT
+from hallucinating prices, which in a commercial context would be a serious trust and
+legal liability issue.
+Product display format is standardized in Markdown:
+### [Product Name]
+**Price:** Q[price]
+![Image](image-url)
+[View Product](product-url)
+**Description:** [exact description from JSON]
+This format renders product images directly in the chat, creating a visual shopping
+experience without leaving the GPT interface.
+
+Modules
+1. "Por qué preferirnos" — Brand Value Proposition
+Delivers the brand's positioning pillars (zero plastic, local sourcing, no unnecessary
+chemicals) in a warm narrative tone, then generates a photorealistic 4K brand image
+to reinforce the visual identity. The conversation then flows organically toward a
+product recommendation based on the user's responses.
+Key design decision: Image generation as brand reinforcement — using DALL-E within
+the GPT to create a contextually relevant lifestyle image immediately after the brand
+pitch. This transforms a text-based value proposition into an immersive brand moment.
+
+2. "Cuidado y Alivio Personal" — Personal Care & Relief
+A triage-style module that asks whether the user wants to:
+
+Relieve muscle pain → recommends 2 therapeutic heat pack products
+Care for their skin → recommends 2 health & beauty products
+
+Key design decision: Binary triage before product recommendation — rather than
+presenting all 19+ personal care products at once, the GPT asks a single qualifying
+question to narrow the catalog to 2 highly relevant options. This reduces decision
+fatigue and increases conversion likelihood.
+
+3. "Mascotas" — Pet Products
+An emotionally-driven module designed around pet owner psychology. Before any product
+is shown, the GPT asks for the pet's name and uses it throughout the conversation —
+a personalization technique that strengthens emotional engagement and brand affinity.
+Key design decision: Name-first personalization gate — the GPT withholds product
+information until the user shares their pet's name. This creates a micro-commitment
+(the user invests in the conversation before seeing products) and shifts the tone from
+transactional to relational.
+
+Conversion Architecture
+WhatsApp Hand-off Pattern
+When a user shows purchase intent, the GPT invites them to click a personalized
+WhatsApp link ("platiquemos por whatsapp") rather than attempting to complete a
+transaction in chat. This is a deliberate design choice:
+
+Keeps the GPT within its actual capability scope (discovery, not transactions)
+Routes high-intent users to a human who can close the sale
+WhatsApp is the dominant sales channel in Guatemala — meeting the customer where
+they already are
+
+Scope Containment
+If a user asks about something unrelated to the store, the GPT acknowledges the
+topic, redirects warmly, and re-anchors to its purpose. This prevents the GPT from
+drifting into a generic assistant role while maintaining a friendly, non-robotic tone.
+Shipping Context
+Shipping cost is location-dependent (by municipality). The GPT always clarifies that
+displayed prices exclude shipping and prompts the user to share their location — a
+natural lead qualifier that also sets accurate purchase expectations.
+
+Governance Layer
+
+JSON-only pricing — no price can be stated that isn't in the knowledge document
+No payment processing — GPT explicitly cannot take payments; always redirects
+to WhatsApp or store URL
+Prompt confidentiality — full protection block preventing system prompt exposure
+Scope boundary — GPT only discusses store products; off-topic queries are
+redirected, not answered
+Image rendering — product images from JSON URLs are displayed inline via
+Markdown, keeping the shopping experience visual and native to the chat interface
+
+
+Key Takeaways
+
+Dual-persona design (caregiver + rebel) is a powerful pattern for values-driven
+brands where emotional alignment is as important as product information. Define both
+archetypes explicitly in the system prompt to get consistent voice across all
+interactions.
+JSON as single source of truth for product catalogs eliminates hallucination
+risk on prices and descriptions — critical for any commercial GPT where accuracy
+directly affects trust and sales.
+Binary triage before product display reduces decision fatigue in large catalogs.
+One qualifying question narrows a 19-product catalog to 2 relevant options —
+significantly improving the user experience and conversion probability.
+Name-first personalization gates create micro-commitments that increase
+engagement and shift the conversation from transactional to relational — especially
+effective in emotional purchase categories like pet products.
+WhatsApp hand-off as conversion mechanism is highly effective in LATAM markets
+where WhatsApp is the dominant commerce channel. Designing the GPT as a discovery
+and qualification layer that feeds into WhatsApp — rather than trying to complete
+the sale in chat — matches user behavior and business reality.
