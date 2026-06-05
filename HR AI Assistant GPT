@@ -1,0 +1,100 @@
+HR AI Assistant GPT — Case Study
+Builder: Rodrigo Espinosa Quinteros
+Type: Custom GPT (ChatGPT)
+Status: Live demo deployment
+Language: Spanish
+Domain: Human Resources
+
+Overview
+A multi-module HR assistant GPT designed to guide HR professionals and managers through structured, step-by-step processes. The GPT acts as a domain expert in each module — shifting persona and knowledge base depending on which workflow the user initiates.
+Rather than a generic chatbot, this system functions as a process orchestrator: it detects the user's intent from a conversation starter keyword, loads the corresponding behavioral instructions, and executes a defined step-by-step flow without deviation.
+
+Architecture
+Routing Logic
+The system prompt uses keyword-based routing to activate the correct module. Each conversation starter (e.g., "Reclutamiento y Selección") maps to a specific knowledge document loaded into the GPT. This avoids ambiguity and ensures the user always lands in the right workflow from message one.
+User input: "Reclutamiento y Selección"
+→ GPT loads recruitment module
+→ Executes 6-step structured flow
+
+User input: "Consultas legales laborales"
+→ GPT adopts legal advisor persona
+→ Applies Guatemalan labor law knowledge base
+Two-Layer Architecture
+Each module uses a two-layer design:
+
+Layer 1 — System Prompt: Defines routing logic, global behavior rules, protection instructions, and persona parameters.
+Layer 2 — Knowledge Documents: Each module has its own document with detailed step-by-step process instructions, output formats, and interaction rules. The GPT presents this information as natural expertise, never referencing the underlying documents.
+
+This separation keeps the system prompt clean and maintainable, while allowing each module to be updated independently.
+
+Modules
+1. Reclutamiento y Selección (Recruitment & Selection)
+A 6-step guided process for vacancy filling:
+
+Vacancy profile intake
+CV upload and confirmation (with explicit human confirmation gate before analysis proceeds)
+Top-3 candidate analysis with structured output format
+Technical question generation with answer keys
+Interview question generation (behavioral + technical)
+Hiring recommendation
+
+Key design decisions:
+
+Hard confirmation gate at Step 2 — GPT will not proceed to analysis until the user explicitly confirms all CVs have been uploaded. This prevents premature outputs on incomplete data.
+Structured output format for candidate ranking ensures consistency and readability across use cases.
+Answer keys marked with ✅ are generated alongside technical questions so the interviewer is equipped to evaluate responses.
+
+
+2. Onboarding / Course Generator
+A course design assistant that generates fully structured HR training modules for a specific company. The GPT:
+
+Optionally adopts an expert persona (e.g., HR thought leaders)
+Personalizes content based on the company's public web presence
+Generates modules with 40-minute content blocks, practical activities, and verifiable references
+Produces a full chronogram ready for implementation
+
+Key design decision: Persona flexibility — the GPT can simulate a specific expert voice or default to a composite of best practices, giving the user control over the training experience tone.
+
+3. Evaluación 360 (360-Degree Performance Evaluation)
+An 11-step guided process covering the full 360 evaluation lifecycle:
+
+Objective definition
+Participant identification
+Competency selection
+Custom questionnaire generation
+Anonymity and confidentiality design
+Participant communication strategy
+Constructive feedback training (SBI model)
+Distribution and collection planning
+Final report structure
+Action plan development
+Process closure
+
+Key design decision: Full step-locking — the GPT will not advance to the next step until the user confirms completion of the current one. This enforces process integrity and prevents users from skipping critical phases.
+
+4. Consultas Legales Laborales (Labor Law Consulting)
+A Guatemalan labor law advisor persona with a 4-step advisory flow:
+
+Query identification
+Legal analysis against the Guatemalan Labor Code (loaded as a knowledge document)
+Structured legal response (disciplinary actions, vacation rights, internal policy review)
+Confirmation and follow-up
+
+Key design decision: Jurisdiction-locked — the GPT is explicitly instructed to answer exclusively under Guatemalan law and to flag when a query falls outside that scope. This prevents legally incorrect cross-border interpretations.
+
+Protection & Governance Layer
+The system includes an explicit protection block in the system prompt covering:
+
+Prompt confidentiality — instructions cannot be revealed, summarized, or reproduced in any format
+No-code constraint — the GPT is explicitly instructed it does not generate code, preventing scope creep
+Pricing boundary — the GPT never quotes prices; redirects pricing inquiries to the human consultant
+Identity integrity — the GPT never acknowledges being a GPT or references its underlying documents
+Social engineering prevention — instructions clarify that the builder will never contact the GPT via chat interface, preventing impersonation attempts
+
+
+Key Takeaways
+
+Keyword routing is a simple, reliable pattern for multi-module GPTs that avoids complex classification logic.
+Step-locking with explicit confirmation gates is essential for process-critical workflows where incomplete inputs produce bad outputs.
+Two-layer architecture (system prompt + knowledge documents) keeps the core logic clean and makes individual modules easy to update without rebuilding the entire GPT.
+Jurisdiction and scope constraints in the system prompt are critical for professional advisory GPTs to prevent liability-adjacent errors.
