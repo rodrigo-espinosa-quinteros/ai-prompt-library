@@ -1,0 +1,140 @@
+Nonprofit Volunteer Onboarding GPT 
+Builder: Rodrigo Espinosa Quinteros
+Type: Custom GPT (ChatGPT)
+Status: Live production deployment
+Language: English
+Domain: Nonprofit, Service-Learning, Student Support
+
+Overview
+A student-facing onboarding assistant GPT built for a nonprofit that provides
+service-learning experiences in Central America. The GPT guides recently accepted
+participants through preparation, logistics, and emotional readiness before their
+trip — reducing the volume of repetitive support questions directed at staff while
+maintaining a warm, human-centered experience.
+This is the most values-constrained GPT in this library. The system prompt dedicates
+significant space not just to what the GPT should do, but to how it should think
+about the people it's serving — an ethical framework that governs tone, language,
+and worldview at every interaction.
+
+Architecture
+Single Entry Point with Timeline Branching
+The GPT uses a single trigger ("How to start") that routes users into one of four
+preparation stages based on their trip timeline:
+User input: "How to start"
+→ GPT presents 4 timeline options:
+   🟢 More than 90 days  → early preparation mode
+   🟡 30–90 days         → active preparation mode
+   🔴 Less than 30 days  → crunch time mode
+   ❓ Not sure yet       → exploratory mode
+→ User selects timeline stage
+→ GPT tailors guidance from Knowledge Base to that stage
+This timeline-based branching serves a dual purpose: it personalizes the experience
+immediately, and it surfaces the most time-sensitive information first — reducing
+the risk that students miss critical deadlines.
+Knowledge Base as Preparation Engine
+A single knowledge document defines the full onboarding timeline (from application
+to 7 days before departure), common student questions, frequent mistakes, and
+official resources. The GPT draws from this document to deliver stage-appropriate
+guidance rather than presenting the entire timeline at once.
+Onboarding timeline covered:
+
+0–48 hours after applying: Welcome packet and payment info
+110 days out: Social media channels
+100 days out: Fundraising resources
+90 days out: Initial deposit deadline (USD 500)
+85 days out: Official trip confirmation + airport/shuttle info
+75 days out: Program manuals + flight information form
+60 days out: Final payment deadline
+45 days out: Itinerary, packing list, final prep recommendations
+30 days out: GroupMe invitation + final coordination
+7 days out: Final checklist and reminders
+
+
+Values Framework (Ethical Design Layer)
+This GPT contains the most explicit ethical governance layer of any case study in
+this library. The system prompt defines not just behavioral rules but a values-based
+communication philosophy:
+What is explicitly prohibited:
+
+"Savior" language (framing volunteers as rescuers)
+Portraying communities as helpless or passive
+Framing volunteers as heroes
+Toxic positivity ("Everything will be amazing!")
+Unrealistic promises
+Assumptions about student identity or background
+Political or religious commentary
+
+What is explicitly required:
+
+People-first language at all times
+Emphasis on collaboration, humility, and mutual respect
+Normalizing nervousness and uncertainty without dismissing it
+Emotional intelligence in responses to anxiety or self-doubt
+Cultural respect and inclusive language
+
+Key design decision: The ethical layer is structural, not decorative. It's not
+a footnote — it governs how every module responds. A student who expresses anxiety
+doesn't get a cheerful deflection; they get acknowledgment, normalization, and
+practical reassurance. This is emotional design built into the architecture.
+
+Emotional Intelligence Module
+The system prompt includes explicit instructions for handling emotional states — a
+pattern rarely seen in operational GPTs but essential for a student-facing support
+tool:
+Trigger: Student expresses anxiety, nervousness, uncertainty, or self-doubt
+Response pattern:
+
+Respond calmly and without minimizing the feeling
+Normalize the experience ("Many participants feel the same way")
+Redirect toward preparation and openness
+Avoid toxic positivity or unrealistic promises
+
+This transforms the GPT from a logistics guide into a psychologically safe space
+— a key factor for students who may be traveling internationally for the first time
+or entering unfamiliar healthcare settings.
+
+Persona Definition: "Student Success Guide"
+The system prompt explicitly names what the GPT should sound like — and what it
+should not:
+✅ Supportive student success guide
+❌ Chatbot
+❌ Travel agency
+❌ Sales representative
+❌ Automated help desk
+This level of persona specificity produces more consistent voice than generic tone
+instructions ("be warm and professional"). By naming anti-personas, the system prompt
+gives the GPT clear negative space to avoid.
+
+Operational Design Goals
+The GPT was designed to address three concrete operational problems:
+
+Reduce repetitive staff questions — students commonly ask the same questions
+about packing, airport pickup, payment timelines, and documentation. The GPT
+handles these at scale without staff involvement.
+Reduce deadline misses — the most common student mistakes are not checking
+email and completing forms late. The GPT proactively surfaces timeline-relevant
+reminders and encourages early action.
+Improve emotional readiness — students arriving anxious or underprepared have
+worse experiences. The GPT addresses emotional readiness as a preparation goal,
+not a side effect.
+
+
+Key Takeaways
+
+Ethical design layers are essential for GPTs serving vulnerable or emotionally
+invested users. Define not just what the GPT says but what worldview it operates
+from — especially in nonprofit, healthcare, education, or social impact contexts.
+Anti-persona definition ("do NOT sound like a travel agency or automated help
+desk") produces more consistent voice than positive tone instructions alone. Naming
+what to avoid gives the model clear negative space.
+Timeline-based branching is a highly effective UX pattern for onboarding flows
+where the relevant content changes dramatically depending on how far away the event
+is. One qualifying question unlocks a completely personalized experience.
+Emotional intelligence as architecture — explicitly defining how the GPT should
+respond to anxiety, uncertainty, and self-doubt is not optional for student-facing
+tools. It's a core design requirement that belongs in the system prompt, not as an
+afterthought.
+Operational problem framing (reduce repetitive questions, reduce deadline
+misses, improve emotional readiness) produces more focused GPT design than
+feature-first thinking. Start with the problems the tool needs to solve, then design
+toward them.
