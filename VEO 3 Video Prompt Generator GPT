@@ -1,0 +1,110 @@
+VEO 3 Video Prompt Generator GPT 
+Builder: Rodrigo Espinosa Quinteros
+Type: Custom GPT (ChatGPT)
+Status: Live deployment
+Language: Bilingual (Spanish input → English JSON output)
+Domain: AI Video Generation, Creative Production
+
+Overview
+A specialized GPT that transforms a creative brief written in Spanish or English into
+a valid, production-ready JSON prompt for VEO 3 via Google Flow. The GPT bridges the
+gap between a non-technical creative brief and the structured technical format that
+AI video generation models require to produce consistent, high-quality output.
+The design philosophy: zero friction between creative intent and technical execution.
+The user thinks in creative terms (objective, audience, message, style); the GPT thinks
+in production terms (composition, cinematography, audio parameters, color palette).
+
+Architecture
+Single-Module, Single-Output Design
+Unlike multi-module GPTs, this system has one job: receive a brief, fill a JSON
+template, output the JSON. No routing, no branching flows, no conversation history
+required. The entire value is in the transformation logic — the rules that govern
+how a vague creative input becomes a precise technical specification.
+User input: "Genera mi prompt JSON"
+→ GPT requests structured brief (9 fields)
+→ User provides brief in Spanish or English
+→ GPT generates single valid JSON object
+→ Output: ready-to-paste VEO 3 prompt
+Brief-to-JSON Transformation Rules
+The system prompt encodes a complete set of inference and formatting rules that govern
+every field in the output:
+Language handling:
+
+All JSON fields output in English
+Exception: dialogue.line, audio.lyrics, and voiceover text stay in Spanish,
+exactly as provided by the user — preserving phonetics and cultural nuance for
+AI audio generation
+
+Intelligent defaults:
+
+Platform: Instagram Reels (9:16 vertical) if not specified
+Duration: 8–15 seconds if not specified
+Frame rate: always "30fps" — locked, never inferred
+Color palette: brand gradient system if not specified (blue-to-orange, green-to-blue,
+white base)
+
+No empty fields policy:
+Every field in the JSON must have a value. If the user's brief doesn't supply a
+specific detail, the GPT infers it from the objective, audience, platform, and style
+context. This is a critical design decision — empty or null fields cause VEO 3 to
+fall back to defaults that may not match creative intent.
+
+JSON Template Structure
+The output follows a fixed 12-section schema:
+shot          → composition, camera motion, frame rate, film grain
+subject       → description, wardrobe
+scene         → location, time of day, environment
+visual_details → action, props
+cinematography → lighting, tone
+audio         → ambient, lyrics, vocal style (delivery/flow/phrasing/texture),
+                voice tone, tempo, rhythm
+color_palette → brand-aligned or brief-specified
+dialogue      → character, line (in Spanish), subtitles
+The schema is designed around VEO 3's generation parameters — each field maps directly
+to a dimension the model uses to control visual and audio output.
+
+Tone Presets
+Two predefined style presets can be invoked by name, automatically populating the
+cinematography fields:
+Cinematic clean:
+Soft balanced lighting, stable camera, subtle depth of field, high clarity, polished
+cinematic look — suited for brand, product, and corporate content.
+Handmade stop-motion:
+Fine organic grain, natural daylight, handcrafted textures, frame-by-frame motion feel
+— suited for artisan brands, food, lifestyle, and creative content.
+Presets reduce the cognitive load of specifying technical cinematography parameters for
+users who think in aesthetic terms rather than production terms.
+
+Brief Intake Structure
+The GPT collects 9 fields before generating output:
+FieldPurposeVideo objectiveDrives tone, pacing, and CTA placementAudience & platform (ratio) Determines format defaults and visual complexityKey messageAnchors dialogue, on-screen text, and audio directionTarget durationConstrains scene count and pacingVisual style or presetPopulates cinematography and tone fieldsCall to actionInforms final scene compositionVoiceover / dialogue (exact Spanish text)Preserved verbatim in outputRestrictions (logos, colors, no-brand rules)Applied as constraints across all fieldsAdditional notesCatches edge cases and creative preferences
+Key design decision: The brief is collected as a structured form, not a free-form
+conversation. This produces consistently parseable inputs that map cleanly to JSON
+fields, reducing generation errors and hallucinated values.
+
+Output Design
+Single object, no explanation. The GPT outputs only the JSON — no preamble, no
+commentary, no follow-up questions. This is intentional: the output is designed to be
+copied directly into Flow without editing. Any surrounding text would add friction to
+the production workflow.
+On-screen text constraint: Text overlays are limited to 25 characters per scene,
+matching VEO 3's optimal rendering range for legibility at mobile scale.
+
+Key Takeaways
+
+Bilingual field-level control (English structure, Spanish dialogue/lyrics) is a
+nuanced pattern for GPTs that serve Spanish-speaking markets but interface with
+English-language AI tools. Language rules need to be field-specific, not
+document-wide.
+No empty fields as a hard rule shifts the intelligence burden from the user to
+the GPT. Inference from context (objective + audience + platform) produces better
+results than leaving fields blank or asking follow-up questions.
+Structured brief intake (fixed fields, not free-form) is more reliable than
+conversational brief extraction for technical output tasks. It reduces ambiguity
+and produces inputs that map predictably to output fields.
+Tone presets as UX layer abstract technical parameters behind creative vocabulary.
+Users who don't know what "depth of field" means can still specify "cinematic clean"
+and get a properly configured cinematography block.
+Output-only design (no explanation, no commentary) is the right choice when the
+deliverable is machine-readable and the user's next action is copy-paste into another
+tool. Explanatory text adds noise, not value.
