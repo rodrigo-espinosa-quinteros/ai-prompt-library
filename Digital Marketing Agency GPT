@@ -1,0 +1,200 @@
+Digital Marketing Agency GPT 
+Builder: Rodrigo Espinosa Quinteros
+Type: Custom GPT (ChatGPT)
+Status: Live production deployment
+Language: Spanish
+Domain: Digital Marketing, Brand Strategy, Content Planning
+
+Overview
+A multi-module GPT built for a digital marketing agency, functioning as an interactive
+methodology guide for business owners, community managers, marketing directors, and
+startups. The GPT — named "La Marke" — delivers the agency's proprietary methodology
+across four structured modules, guiding users step-by-step through professional
+marketing processes they would otherwise need a consultant to execute.
+The core design principle: the GPT is not a chatbot, it's a methodology delivery
+engine. Every module has a defined flow, a strict sequence of steps, and a
+structured output at the end. Improvisation is explicitly prohibited.
+
+Architecture
+Routing Logic
+Keyword-based conversation starters activate one of four modules. Each keyword maps
+to a specific knowledge document loaded into the GPT. The system prompt establishes
+a named persona ("La Marke") that maintains consistent voice and personality across
+all modules.
+User input: "Definiendo al cliente ideal"
+→ GPT loads ideal customer profile module (JSON-structured instructions)
+→ Runs 5-step data collection flow across 3 avatar profiles
+→ Outputs comparative table + strategic analysis automatically
+
+User input: "Auditoría Digital"
+→ GPT runs 2-part digital audit (brand presence + 3 competitors)
+→ Stores responses in internal structured object
+→ Outputs comparative tables + strategic recommendations
+
+User input: "Optimización de Perfiles"
+→ GPT runs 7-step profile optimization review
+→ Covers photo, bio, links, highlights, pinned posts per platform
+→ Delivers platform-specific recommendations
+
+User input: "Creación de contenido"
+→ GPT runs content strategy builder
+→ Defines platforms, frequency, formats, pillars, and content plan
+→ Validates each definition with user before advancing
+Document-Driven Module Architecture
+Each module is fully defined in a separate knowledge document. The system prompt acts
+as a router and persona layer only — all process logic lives in the documents.
+This makes each module independently updatable without touching the core system prompt.
+A key constraint enforced in the system prompt: the GPT only activates a module if
+its corresponding document has been loaded. This prevents partial or broken
+experiences if a document is missing.
+JSON-Structured Instructions (Module 1)
+The ideal customer profile module uses a JSON object as its instruction format —
+an unconventional but effective pattern for structuring complex multi-step flows with
+conditional logic. The JSON defines triggers, actions, step sequences, and behavioral
+notes in a machine-readable format that the GPT interprets with high fidelity.
+json{
+  "triggers": [{ "pattern": "^Definiendo al Cliente ideal$" }],
+  "instructions": {
+    "steps": ["Step 1...", "Step 2...", "..."],
+    "notes": ["Behavioral constraint 1...", "Behavioral constraint 2..."]
+  }
+}
+This approach reduces ambiguity in complex flows compared to plain prose instructions.
+
+Modules
+1. Definiendo al Cliente Ideal (Ideal Customer Profile Builder)
+A 5-step guided process repeated across 3 customer avatars:
+
+Sector, niche, company, and product context intake
+Demographic and situational data collection
+Narrative persona creation (name, goals, challenges)
+Psychographic depth: objectives, objections, awareness level, emotional drivers
+Purchase behavior: channels, devices, habits, social media preferences
+
+Automatic outputs upon completing all 3 profiles:
+
+Comparative table of all 3 avatars
+Strategic analysis mapping each avatar to messaging, objections, offers, channels,
+and retention tactics
+3 specific tactics per avatar based on pain points and desires
+
+Key design decisions:
+
+Prohibition on asking about income directly — income is inferred from lifestyle,
+profession, and consumption habits. This avoids discomfort and still produces
+actionable segmentation data.
+No optional outputs — the comparative table and strategic analysis are generated
+automatically after the third avatar, not on request. This ensures users always
+receive the full deliverable, not a truncated one.
+Step-locking — the GPT cannot advance to the next avatar until the current one
+is fully validated by the user.
+
+
+2. Auditoría Digital (Digital Presence Audit)
+A two-part audit covering the user's brand and 3 direct competitors:
+Part 1 — Brand presence: Website, SEO, social media activity, content quality,
+engagement, paid advertising, email marketing, e-commerce presence.
+Part 2 — Competitive analysis: Same dimensions applied to 3 competitors, with
+side-by-side comparison.
+Outputs:
+
+Brand digital presence scorecard
+3 comparative tables (brand vs. each competitor)
+Strategic recommendations with prioritized action areas
+
+Key design decisions:
+
+Internal state tracking — the GPT maintains an internal structured object
+(AUDITORIA_DIGITAL) throughout the conversation, storing all responses
+organized by brand and competitor. This enables accurate table generation at the
+end without asking the user to repeat information.
+One question per message — strictly enforced. The audit covers 40+ data points
+across 4 entities; sending questions in batches would overwhelm users and reduce
+completion rates.
+Graceful handling of unknowns — users are guided to find information (checking
+their own analytics, reviewing competitor profiles) rather than blocked when they
+don't know an answer.
+
+
+3. Optimización de Perfiles (Social Media Profile Optimization)
+A 7-step profile review covering all active platforms:
+
+Brand type (personal vs. commercial) → profile photo recommendations
+Business focus (B2C / B2B / other) → platform recommendations
+Active platforms inventory
+Bio review → 3 rewritten versions (friendly, professional, educational tone)
+Links audit (website, social cross-links, physical location, brand personality)
+Highlights strategy (max 7, prioritized by business type)
+Pinned posts strategy (sale post + high-performance post + story post)
+
+Platform-specific sections for Facebook (cover photo, business info, reviews),
+TikTok (profile photo, bio), and LinkedIn (cover photo, extended business info).
+Key design decisions:
+
+7-second rule framing — the module opens with the behavioral insight that users
+have 7 seconds to communicate their value proposition. This frames every
+recommendation that follows as time-critical, increasing user motivation to act.
+Character-count enforcement — bio rewrites are generated within the exact
+character limits of each platform (Instagram: 150, LinkedIn: 220, TikTok: 80,
+Facebook: 255). This prevents users from receiving suggestions they can't actually
+use.
+Seasonal relevance prompts — the GPT explicitly checks whether the current
+season or business moment (launches, promotions, holidays) should influence the
+bio content, keeping recommendations contextually current.
+
+
+4. Creación de Contenido (Content Strategy Builder)
+A 6-point content strategy builder that produces a complete, validated content plan:
+
+Platform selection (based on business type and audience)
+Posting frequency (weekly and monthly, matched to available human resources)
+Format recommendations per platform
+Content objectives per post type
+Content pillars definition
+Full content plan
+
+Key design decisions:
+
+State inheritance from Module 3 — if the user completed the profile optimization
+module first, the content module skips questions about platforms and business focus
+already answered. This is explicitly enforced in the system prompt to avoid
+repetitive interactions across modules.
+Resource-aware frequency — posting frequency is calibrated to the user's
+actual available resources (human, time, tools), not an idealized recommendation.
+This produces realistic, executable plans rather than aspirational ones.
+Mandatory transition message — after the 4 initial intake questions, the GPT
+sends a specific transition message before building the strategy. This resets the
+user's mental mode from "answering questions" to "receiving a deliverable."
+
+
+Governance Layer
+
+Methodology lock — GPT only uses content from loaded documents. Improvisation
+outside module scope is explicitly prohibited.
+Persona consistency — "La Marke" maintains a warm, creative, analytical voice
+across all modules regardless of the topic
+No module bleed — each module stays strictly within its document's instructions;
+the GPT does not mix recommendations across modules unless state inheritance is
+explicitly designed (Module 3 → Module 4)
+Social media links — when requested, the GPT delivers agency social links as
+active hyperlinks, consistent with the broader pattern of using the GPT as a
+passive brand awareness channel
+
+
+Key Takeaways
+
+JSON-formatted instructions are a powerful alternative to prose for complex
+multi-step flows. They reduce interpretive ambiguity and are easier to maintain
+and version-control than long paragraphs.
+Internal state objects (like AUDITORIA_DIGITAL) enable multi-part workflows
+where the GPT needs to remember and structure information across many interactions
+before generating a final output.
+Cross-module state inheritance — designing modules to share context from
+previous sessions reduces friction and makes the GPT feel like a unified product
+rather than isolated tools.
+Resource-aware outputs produce higher completion and implementation rates than
+best-practice outputs. A content plan the user can actually execute is more valuable
+than an optimal one they won't.
+Automatic vs. on-request outputs — forcing key deliverables (comparative tables,
+strategic analyses) to generate automatically ensures users always receive the full
+value of the process, not just the parts they knew to ask for.
